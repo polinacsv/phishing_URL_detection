@@ -11,7 +11,10 @@ venv:
 # install requirements into the venv
 install:
 	. .venv/bin/activate && pip install -U pip && pip install -r requirements.txt
-
+	@echo ""
+	@echo "✅ Packages installed into .venv"
+	@echo "👉 To activate your environment, run:"
+	@echo "   source .venv/bin/activate"
 # freeze current venv packages into requirements.txt
 update:
 	. .venv/bin/activate && pip freeze > requirements.txt

@@ -34,18 +34,46 @@ def load_phishing_data(data_dir: str, filename: str, url_col: str, label_col: st
 
     return df
 
+
 def load_alexa_domains(data_dir: str, filename: str) -> pd.DataFrame:
     """
-    Loads the Alexa Top 1M domains list from a .txt file (one domain per line).
-
-    Parameters:
-        data_dir (str): Directory containing the Alexa file
-        filename (str): Name of the .txt file (e.g., 'alexa_domains_1M.txt')
-
-    Returns:
-        pd.DataFrame: DataFrame with columns ['alexa_domain', 'rank']
+    Loads Alexa Top domains from .txt (one per line) or .csv.
+    Returns df with columns: ['alexa_domain','ranking'] (both lowercased domain).
     """
-    file_path = os.path.join(data_dir, filename)
-    df = pd.read_csv(file_path, header=None, names=['alexa_domain'])
-    df['rank'] = df.index + 1  # 1-based rank based on file order
-    return df
+    import os
+    import pandas as pd
+
+    path = os.path.join(data_dir, filename)
+    # try to detect delimiter/header automatically
+    if filename.lower().endswith(".txt"):
+        df = pd.read_csv(path, header=None, names=["alexa_domain"], dtype=str)
+    else:
+        df = pd.read_csv(path, dtype=str)
+
+    # normalize columns
+    if "alexa_domain" not in df.columns:
+        # try to infer a domain column
+        domain_col = None
+        for c in df.columns:
+            if "domain" in c.lower() or "host" in c.lower():
+                domain_col = c
+                break
+        if domain_col is None and df.shape[1] == 1:
+            df.columns = ["alexa_domain"]
+        elif domain_col:
+            df = df.rename(columns={domain_col: "alexa_domain"})
+        else:
+            raise ValueError("Could not find an Alexa domain column.")
+
+    df["alexa_domain"] = df["alexa_domain"].astype(str).str.strip().str.lower()
+
+    if "rank" not in df.columns:
+        df["ranking"] = df.index + 1
+    else:
+        df["ranking"] = (
+            pd.to_numeric(df["rank"], errors="coerce")
+            .fillna(df.index + 1)
+            .astype(int)
+        )
+
+    return df[["alexa_domain", "ranking"]]

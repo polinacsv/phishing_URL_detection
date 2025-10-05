@@ -208,3 +208,9 @@ __marimo__/
 
 # Files
 helper_commands.txt
+
+# Data
+data/
+
+# OS files
+.DS_Store

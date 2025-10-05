@@ -211,6 +211,7 @@ helper_commands.txt
 
 # Data
 data/
+notebooks/data/
 
 # OS files
 .DS_Store

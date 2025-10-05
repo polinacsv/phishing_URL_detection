@@ -69,7 +69,7 @@ pandas==2.3.3
 pandocfilters==1.5.1
 parso==0.8.5
 pexpect==4.9.0
--e git+https://github.com/polinacsv/phishing_URL_detection.git@0f55270bfaa515e045eb2013d6f439c6a17332bd#egg=phishing_URL_detection
+-e git+https://github.com/polinacsv/phishing_URL_detection.git@c437d723dea4044e8c3a067e01825c8f5017678d#egg=phishing_URL_detection
 pillow==11.3.0
 platformdirs==4.4.0
 prometheus_client==0.23.1

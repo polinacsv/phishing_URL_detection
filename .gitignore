@@ -215,3 +215,6 @@ notebooks/models/
 
 # OS files
 .DS_Store
+
+# Papers
+lit_review/

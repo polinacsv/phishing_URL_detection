@@ -25,7 +25,7 @@ def load_phishing_data(data_dir: str, filename: str, url_col: str, label_col: st
 
     # Normalize labels to 0 (benign) and 1 (phishing)
     phishing_values = {'phishing', 'phish', 'malicious', '1', '1.0', 'yes', 'true'}
-    benign_values   = {'benign', 'legit', '0', '0.0', 'no', 'false'}
+    benign_values   = {'benign', 'legit', '0', '0.0', 'no', 'false', 'legitimate'}
 
     df['label'] = df['label'].apply(lambda x: 1 if str(x).strip().lower() in phishing_values else
                                               0 if str(x).strip().lower() in benign_values else None)
